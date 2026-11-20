@@ -444,3 +444,29 @@ fun MementoController.changeFontFamily(id: Int, fontName: String) {
         state.copy(fontName = fontName)
     }
 }
+
+
+fun MementoController.duplicateLayer(id: Int) {
+    val currentComponents = state.value.toMutableList()
+    val target = currentComponents.find { it.id == id }
+
+    if (target != null) {
+        // Tạo ID mới (lấy ID lớn nhất hiện tại + 1)
+        val newId = (currentComponents.maxOfOrNull { it.id } ?: 0) + 1
+        
+        // Tạo bản sao lệch đi 30px để người dùng dễ nhìn thấy
+        val duplicatedState = when(target) {
+            is MementoState.Text -> target.copy(
+                id = newId,
+                offsetX = target.offsetX + 30f,
+                offsetY = target.offsetY + 30f
+            )
+            is MementoState.Image -> target.copy(
+                id = newId,
+                offsetX = target.offsetX + 30f,
+                offsetY = target.offsetY + 30f
+            )
+        }
+        _state.value = currentComponents + duplicatedState
+    }
+}
