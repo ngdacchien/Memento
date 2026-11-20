@@ -120,6 +120,10 @@ sealed interface MementoState : Layout, Identifiable {
         override val scale: Float,
         override val rotation: Float,
         val colors: Colors,
+        val isBold: Boolean = false,
+        val isItalic: Boolean = false,
+        val isUnderline: Boolean = false,
+        val fontName: String = "Default",
     ) : MementoState {
 
         data class Colors(
@@ -139,7 +143,7 @@ sealed interface MementoState : Layout, Identifiable {
         }
 
         override fun updateLayout(offsetX: Float, offsetY: Float): MementoState {
-            Color(Color.Blue.value)
+            //Color(Color.Blue.value) // <-- Dòng này thừa và không có tác dụng
             return copy(offsetX = offsetX, offsetY = offsetY)
         }
 

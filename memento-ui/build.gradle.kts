@@ -51,3 +51,6 @@ compose.resources {
     generateResClass = auto
 }
 
+signing {
+    isRequired = false
+}

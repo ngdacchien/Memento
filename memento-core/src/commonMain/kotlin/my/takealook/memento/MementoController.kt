@@ -416,3 +416,31 @@ fun MementoController.removeCurrent() {
 fun MementoController.removeAll() {
     _state.value = emptyList()
 }
+
+/**
+ * bật/tắt In đậm, In nghiêng
+ */
+
+fun MementoController.toggleTextBold(id: Int) {
+    update<MementoState.Text>(id) { state ->
+        state.copy(isBold = !state.isBold)
+    }
+}
+
+fun MementoController.toggleTextItalic(id: Int) {
+    update<MementoState.Text>(id) { state ->
+        state.copy(isItalic = !state.isItalic)
+    }
+}
+
+fun MementoController.toggleTextUnderline(id: Int) {
+    update<MementoState.Text>(id) { state ->
+        state.copy(isUnderline = !state.isUnderline)
+    }
+}
+
+fun MementoController.changeFontFamily(id: Int, fontName: String) {
+    update<MementoState.Text>(id) { state ->
+        state.copy(fontName = fontName)
+    }
+}

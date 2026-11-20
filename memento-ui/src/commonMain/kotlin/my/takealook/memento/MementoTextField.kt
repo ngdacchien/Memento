@@ -32,6 +32,11 @@ import androidx.compose.ui.unit.isSpecified
 import androidx.compose.ui.unit.sp
 import my.takealook.memento.text.TextShape
 
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+
 internal val baseFontSize = 24.sp
 
 /**
@@ -57,16 +62,38 @@ fun MementoTextField(
 ) {
     val scaledFontSize = (baseFontSize.value * state.scale).sp
     val colorScheme = getMementoColorScheme(state.colors)
-    val textStyle = textStyle.copy(
+    
+    // 1. Đọc các thuộc tính mới từ state
+    val fontWeight = if (state.isBold) FontWeight.Bold else FontWeight.Normal
+    val fontStyle = if (state.isItalic) FontStyle.Italic else FontStyle.Normal
+    val textDecoration = if (state.isUnderline) TextDecoration.Underline else TextDecoration.None
+   
+    val fontFamily = when (state.fontName) {
+        "Serif" -> FontFamily.Serif
+        "Monospace" -> FontFamily.Monospace
+        "Cursive" -> FontFamily.Cursive
+        "Sans-Serif" -> FontFamily.SansSerif
+        else -> FontFamily.Default
+    }
+
+    // 2. Áp dụng tất cả vào TextStyle
+    val finalTextStyle = textStyle.copy(
         fontSize = scaledFontSize,
         color = colorScheme.primary,
-        background = colorScheme.primaryContainer
+        background = colorScheme.primaryContainer,
+        fontWeight = fontWeight,
+        fontStyle = fontStyle,
+        textDecoration = textDecoration,
+        fontFamily = fontFamily
     )
+
+    // 3. Khởi tạo state cho TextField
     val textState = rememberTextFieldState(state.text)
 
+    // 4. Truyền finalTextStyle vào TextField bên trong
     MementoTextField(
         state = textState,
-        textStyle = textStyle,
+        textStyle = finalTextStyle, // <-- Sửa thành finalTextStyle (quan trọng)
         onFocused = onFocused,
         onKeyDown = onKeyDown,
         modifier = modifier

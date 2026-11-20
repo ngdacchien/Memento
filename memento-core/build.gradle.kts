@@ -35,3 +35,7 @@ kotlin {
         }
     }
 }
+
+signing {
+    isRequired = false
+}
